@@ -1,0 +1,59 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <h2>Solicitudes de compra</h2>
+    <a href="/nueva" class="btn">
+      + Nueva solicitud
+    </a>
+  </div>
+
+  <p *ngIf="mensaje">{{ mensaje }}</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Justificación</th>
+        <th>Total</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let s of solicitudes">
+        <td>{{ s.id }}</td>
+        <td>{{ s.justificacion }}</td>
+        <td>{{ s.total | currency:'USD' }}</td>
+        <td>{{ s.estado }}</td>
+
+        <td>
+          <button
+            *ngIf="s.estado === 'Borrador'"
+            (click)="enviar(s.id)">
+            Enviar
+          </button>
+
+          <button
+            *ngIf="s.estado === 'Borrador'"
+            (click)="eliminar(s.id)">
+            Eliminar
+          </button>
+
+          <button
+            *ngIf="s.estado === 'EnRevision'"
+            (click)="aprobar(s)">
+            Aprobar
+          </button>
+
+          <button
+            *ngIf="s.estado === 'EnRevision'"
+            (click)="rechazar(s.id)">
+            Rechazar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

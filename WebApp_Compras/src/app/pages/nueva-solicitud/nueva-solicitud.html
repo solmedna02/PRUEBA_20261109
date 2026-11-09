@@ -1,0 +1,81 @@
+<div class="contenedor">
+  <h2>Nueva solicitud</h2>
+
+  <p *ngIf="mensaje">{{ mensaje }}</p>
+
+  <form (ngSubmit)="guardar()">
+    <label>Departamento</label>
+    <select
+      name="departamento"
+      [(ngModel)]="solicitud.departamentoId">
+      <option [ngValue]="1">Sistemas</option>
+      <option [ngValue]="2">Recursos Humanos</option>
+      <option [ngValue]="3">Administración</option>
+      <option [ngValue]="4">Finanzas</option>
+    </select>
+
+    <label>Solicitante</label>
+    <select
+      name="solicitante"
+      [(ngModel)]="solicitud.solicitanteId">
+      <option [ngValue]="1">Ana López</option>
+      <option [ngValue]="2">Carlos Pérez</option>
+      <option [ngValue]="3">María Torres</option>
+      <option [ngValue]="4">Luis Gómez</option>
+      <option [ngValue]="5">Pedro Ruiz</option>
+    </select>
+
+    <label>Justificación</label>
+    <textarea
+      name="justificacion"
+      [(ngModel)]="solicitud.justificacion"
+      required>
+    </textarea>
+
+    <h3>Artículos o servicios</h3>
+
+    <div
+      *ngFor="let d of solicitud.detalles; let i = index"
+      class="detalle">
+
+      <input
+        placeholder="Descripción"
+        [name]="'descripcion' + i"
+        [(ngModel)]="d.descripcion"
+        required>
+
+      <input
+        type="number"
+        placeholder="Cantidad"
+        [name]="'cantidad' + i"
+        [(ngModel)]="d.cantidad"
+        min="1">
+
+      <input
+        type="number"
+        placeholder="Precio"
+        [name]="'precio' + i"
+        [(ngModel)]="d.precioUnitario"
+        min="0"
+        step="0.01">
+
+      <button
+        type="button"
+        (click)="quitarDetalle(i)">
+        Quitar
+      </button>
+    </div>
+
+    <button type="button" (click)="agregarDetalle()">
+      + Agregar artículo
+    </button>
+
+    <h3>Total: {{ total | currency:'USD' }}</h3>
+
+    <button type="submit" [disabled]="guardando">
+      Guardar solicitud
+    </button>
+
+    <a href="/">Cancelar</a>
+  </form>
+</div>
